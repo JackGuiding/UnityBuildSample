@@ -1,0 +1,52 @@
+Unity 编译：
+- 为什么要编译?
+  - x 不编译只能从Unity运行源码
+  - 得到可执行文件(.exe)，发送给玩家、上传到Steam
+- 安装Unity
+  - 下载并安装Hub
+  - 官网点击从Hub下载对应版本
+  - 需要安装对应模块：Android/Mac/Win(Mono)/Win(IL2CPP)
+- 编译可执行文件
+  - 运行时代码
+  - 通常情况只编译主场景
+  - Editor的程序集以及其命名空间下的所有代码不会被编译，即导致报错
+  * Tests 的程序集也同上报错
+- 编译.dll
+  - 写完代码回到Unity刷新时发生
+- IL2CPP与Mono的区别
+  - Mono -> C# .dll 为主，容易被破解
+  - IL2CPP -> C/C++ .dll 二进制，不易破解
+- 什么是程序集？
+  - .dll(动态链接库)
+  - 程序集由一堆.cs组成
+  - DnSpy软件可以反编译(破解).dll
+
+- 什么是.csproj
+  - XXX.csproj -> XXX.dll(Library/ScriptAssemblies)
+  - include 一堆.cs以及.dll
+  - 只有include .cs，它才能被访问到
+  - 只有include .dll，才能访问到该.dll下的代码
+
+- .asmdef程序集
+  - 包含 asmdef文件所在目录下的所有.cs -> .dll
+
+- 程序集引用方式
+  - 引用别人的.asmdef
+  - 引用别人的.dll，通过打勾Override References，选中.dll
+
+- 为什么区分不同程序集？
+  - 把运行时、编辑时、测试、演示四种代码分离
+  - 代码库如果没有被引用到，那么就会在编译时被剔除
+  - 隔离代码，降低工程的复杂度
+  * 区分层级关系和依赖关系
+
+* C# 与C/C++的编译关系与调用关系
+  - C# 最终调用的是 C/C++
+  - System.Runtime.InteropServices里的DllImpot特性，可以调用C语言的.dll
+
+- 程序执行需要什么？
+  - 如果程序是动态链接的，那么需要.exe同目录下（或环境变量目录下）有.dll(动态链接库文件)
+  - 安装软件时，就会把.dll拷贝到.exe同目录下
+
+** 建议
+安装 Listary 软件，便于全局搜索Windows的文件
